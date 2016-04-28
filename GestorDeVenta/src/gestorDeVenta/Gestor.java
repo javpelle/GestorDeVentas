@@ -15,6 +15,8 @@ public class Gestor {
 	private float costes;
 	private float brutoTotal;
 	
+	private int pos;
+	
 	public Gestor () {}
 	
 	/**
@@ -90,8 +92,7 @@ public class Gestor {
 	 * Lee los datos de usuario necesarios para crear un cliente y si no existe lo crea.
 	 */
 	public boolean crearCliente(String nombre) {
-		int pos = 0;
-		if(!busquedaBinaria(pos, nombre)) {
+		if(!busquedaBinaria(nombre)) {
 			clientes.add(pos, new Cliente(nombre));
 			guardar();
 			return true;
@@ -99,16 +100,16 @@ public class Gestor {
 		return false;
 	}
 	
-	private boolean busquedaBinaria (int pos, String name) {
+	private boolean busquedaBinaria (String name) {
 		int ini = 0, fin = clientes.size() - 1;
 		int mitad = ini;
 		boolean encontrado = false;
 		while ((ini <= fin) && !encontrado) {
-			mitad = (ini + fin) / 2; // División entera
+			mitad = (ini + fin) / 2;
 			int comparacion = name.compareTo(clientes.get(mitad).toString());
-			if (comparacion == -1) {
+			if (comparacion < 0) {
 				fin = mitad - 1;
-			} else if (comparacion == 1) {
+			} else if (comparacion > 0) {
 				ini = mitad + 1;
 			} else {
 				encontrado = true;
@@ -116,9 +117,9 @@ public class Gestor {
 		}
 		if (encontrado) {
 			pos = mitad; // en la posición mitad
+		} else {
+			pos = ini; 
 		}
-		else pos = ini; // No encontrado, le corresponde
-		// la posición ini (=fin+1)
 		return encontrado;
 	}
 }

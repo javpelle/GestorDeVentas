@@ -1,14 +1,10 @@
 package swings;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-
-import java.awt.Color;
-import java.awt.SystemColor;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -18,6 +14,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 
 public class NuevoCliente extends JFrame {
+	private static final long serialVersionUID = 1L;
+	
 	private JTextField textField;
 	
 	public NuevoCliente(final NuevoClienteListener listener) {

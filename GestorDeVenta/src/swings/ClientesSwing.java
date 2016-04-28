@@ -33,9 +33,12 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import java.awt.Color;
 
-public class ClientesSwing extends JPanel implements ListSelectionListener {
-	private final JButton seleccionarCliente = new JButton("Seleccionar");
-	private final JButton nuevoCliente = new JButton("Nuevo Cliente");
+public class ClientesSwing extends JPanel {
+	
+	private static final long serialVersionUID = 1L;
+	private JButton seleccionarCliente = new JButton("Seleccionar");
+	private JButton nuevoCliente = new JButton("Nuevo Cliente");
+	@SuppressWarnings("rawtypes")
 	private JList list;
 	private final JScrollPane scrollPane_1;
 	
@@ -52,25 +55,21 @@ public class ClientesSwing extends JPanel implements ListSelectionListener {
 		scrollPane_1.setViewportView(list);
 		nuevoCliente.setBounds(977, 630, 130, 23);
 		nuevoCliente.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
+			
 			public void actionPerformed(ActionEvent arg0) {
-				nuevoCliente.enable(false);
-				seleccionarCliente.enable(false);
 				new NuevoCliente(listenerNuevo);
-				nuevoCliente.enable(false);
-				seleccionarCliente.enable(false);
 			}
 		});
 		add(nuevoCliente);
 		seleccionarCliente.setBounds(829, 630, 125, 23);
+		seleccionarCliente.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.print(list.getSelectedValue() + "\n");
+			}
+		});
 		add(seleccionarCliente);
 	
-	}
-
-	@Override
-	public void valueChanged(ListSelectionEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public void update(List<Cliente> listaClientes) {

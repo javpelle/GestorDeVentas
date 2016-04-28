@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import swings.NuevoCliente.NuevoClienteListener;
 
 public class Swing extends JFrame {
+	private static final long serialVersionUID = 1L;
+	
 	private ClientesSwing clientesSwing;
 	
 	public Swing (String archivo, final Gestor gestor) {
