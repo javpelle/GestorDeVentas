@@ -45,7 +45,9 @@ public class Gestor {
 		} else {
 			entrada = new Scanner(ficheroEntrada);
 			int contador = Integer.parseInt(entrada.nextLine());
+			
 			for (int i = 0; i < contador; i++) {
+				clientes.add(new Cliente());
 				clientes.get(i).cargar(entrada);
 			}
 			
@@ -87,7 +89,36 @@ public class Gestor {
 	/**
 	 * Lee los datos de usuario necesarios para crear un cliente y si no existe lo crea.
 	 */
-	public void crearCliente() {
-		
+	public boolean crearCliente(String nombre) {
+		int pos = 0;
+		if(!busquedaBinaria(pos, nombre)) {
+			clientes.add(pos, new Cliente(nombre));
+			guardar();
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean busquedaBinaria (int pos, String name) {
+		int ini = 0, fin = clientes.size() - 1;
+		int mitad = ini;
+		boolean encontrado = false;
+		while ((ini <= fin) && !encontrado) {
+			mitad = (ini + fin) / 2; // División entera
+			int comparacion = name.compareTo(clientes.get(mitad).toString());
+			if (comparacion == -1) {
+				fin = mitad - 1;
+			} else if (comparacion == 1) {
+				ini = mitad + 1;
+			} else {
+				encontrado = true;
+			}
+		}
+		if (encontrado) {
+			pos = mitad; // en la posición mitad
+		}
+		else pos = ini; // No encontrado, le corresponde
+		// la posición ini (=fin+1)
+		return encontrado;
 	}
 }
