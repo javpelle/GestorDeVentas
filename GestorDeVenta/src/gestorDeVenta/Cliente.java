@@ -68,4 +68,6 @@ public class Cliente {
 	 * @return Devuelve el beneficio neto
 	 */
 	public float getBeneficioNeto() {return beneficioCliente;}
+	
+	public List<Pedido> getListaPedidos() {return listaPedidos;}
 }

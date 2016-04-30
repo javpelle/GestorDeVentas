@@ -115,6 +115,10 @@ public class Pedido {
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
+	
+	public String toString() {
+		return Integer.toString(numeroPedido);
+	}
 }
 
 
