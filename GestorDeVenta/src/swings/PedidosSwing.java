@@ -56,7 +56,7 @@ public class PedidosSwing extends JPanel {
 		
 		seleccionarPedido = new JButton("Seleccionar");
 		seleccionarPedido.setBounds(490, 20, 140, 20);
-		nuevoPedido = new JButton("Nuevo Cliente");
+		nuevoPedido = new JButton("Nuevo Pedido");
 		nuevoPedido.setBounds(490, 50, 140, 20);
 		info.add(nuevoPedido);
 		info.add(seleccionarPedido);

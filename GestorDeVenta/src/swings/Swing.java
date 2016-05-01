@@ -41,7 +41,8 @@ public class Swing extends JFrame {
 	private void vistaCliente(Cliente cliente) {
 		remove(clientesSwing);
 		pedidosSwing = new PedidosSwing(cliente);
-		add(pedidosSwing);
+		pedidosSwing.setBounds(0, 0, 684, 461);
+		getContentPane().add(pedidosSwing);
 		repaint();
 	}
 }
