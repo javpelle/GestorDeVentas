@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 import swings.ClientesSwing.ClientesSwingListener;
+import swings.PedidosSwing.PedidosSwingListener;
 
 public class Swing extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -24,7 +25,8 @@ public class Swing extends JFrame {
 
 			@Override
 			public void seleccionar(Cliente cliente) {
-				vistaCliente(cliente);
+				if (cliente != null) 
+					vistaCliente(cliente);
 			}
 
 			@Override
@@ -40,7 +42,15 @@ public class Swing extends JFrame {
 	
 	private void vistaCliente(Cliente cliente) {
 		remove(clientesSwing);
-		pedidosSwing = new PedidosSwing(cliente);
+		pedidosSwing = new PedidosSwing(cliente, new PedidosSwingListener(){
+
+			public void atras() {
+				remove(pedidosSwing);
+				getContentPane().add(clientesSwing);
+				repaint();
+			}
+			
+		});
 		pedidosSwing.setBounds(0, 0, 684, 461);
 		getContentPane().add(pedidosSwing);
 		repaint();

@@ -56,10 +56,11 @@ public class ClientesSwing extends JPanel {
 		info.setLayout(null);
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(8, 20, 460, 420);
-		info.add(scrollPane);
 		
 		list = new JList(listaClientes.toArray());
+		list.setSelectedIndex(0);
 		scrollPane.setViewportView(list);
+		info.add(scrollPane);
 		
 		seleccionarCliente = new JButton("Seleccionar");
 		seleccionarCliente.setBounds(490, 20, 140, 20);
@@ -126,6 +127,7 @@ public class ClientesSwing extends JPanel {
 	public void update(List<Cliente> listaClientes) {
 		scrollPane.remove(list);
 		list = new JList(listaClientes.toArray());
+		list.setSelectedIndex(0);
 		scrollPane.setViewportView(list);
 	}
 	

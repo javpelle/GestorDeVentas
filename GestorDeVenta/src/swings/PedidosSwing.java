@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import gestorDeVenta.Cliente;
+import gestorDeVenta.Pedido;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,27 +20,39 @@ import javax.swing.border.TitledBorder;
 
 public class PedidosSwing extends JPanel {
 	// elementos comunes
+	private static final long serialVersionUID = 1L;
 	private Cliente cliente;
+	private PedidosSwingListener listener;
 	
 	// Datos apartado cliente
 		private JPanel info; 
 		private JButton seleccionarPedido;
+		private JButton eliminarPedido;
 		private JButton nuevoPedido;
+		private JButton atras;
 		private JList list;
 		private JScrollPane scrollPane;
 		
 		// Datos apartado nuevo Cliente
 		private JPanel nuevoPedid;
-		private JTextField textField;
+		private JTextField nombre;
+		private JTextField direccion1;
+		private JTextField direccion2;
+		private JTextField localidad;
+		private JTextField cPostal;
+		private JTextField provincia;
 		private JButton btnAceptar;
 		private JButton btnCancelar;
 	
-	public PedidosSwing(Cliente cliente) {
+	public PedidosSwing(Cliente cliente, PedidosSwingListener listener) {
 		this.cliente = cliente;
+		this.listener = listener;
 		setLayout(null);
+		//this.cliente.listaPedidos.add(new Pedido("hola"));
 		inicializarInfo();
 		inicializarNuevoPedido();
 		add(info);
+		repaint();
 	}
 	
 	private void inicializarInfo() {
@@ -49,21 +62,28 @@ public class PedidosSwing extends JPanel {
 		info.setLayout(null);
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(8, 20, 460, 420);
-		info.add(scrollPane);
 		
 		list = new JList(cliente.getListaPedidos().toArray());
+		list.setSelectedIndex(0);
 		scrollPane.setViewportView(list);
+		info.add(scrollPane);
 		
 		seleccionarPedido = new JButton("Seleccionar");
 		seleccionarPedido.setBounds(490, 20, 140, 20);
+		eliminarPedido = new JButton("Eliminar");
+		eliminarPedido.setBounds(490, 50, 140, 20);
 		nuevoPedido = new JButton("Nuevo Pedido");
-		nuevoPedido.setBounds(490, 50, 140, 20);
+		nuevoPedido.setBounds(490, 80, 140, 20);
+		atras = new JButton("Atrás");
+		atras.setBounds(490, 110, 140, 20);
 		info.add(nuevoPedido);
 		info.add(seleccionarPedido);
+		info.add(eliminarPedido);
+		info.add(atras);	
 		
 		nuevoPedido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//vistaNuevoCliente();
+				vistaNuevoPedido();
 			}
 		});
 		
@@ -73,49 +93,98 @@ public class PedidosSwing extends JPanel {
 			}
 		});
 		
+		eliminarPedido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// Eliminamos un pedido
+			}
+		});
+		
+		atras.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				listener.atras();
+			}
+		});
+		
 	}
 	
 	private void inicializarNuevoPedido() {
 		nuevoPedid = new JPanel();
 		nuevoPedid.setLayout(null);
 		nuevoPedid.setBounds(5, 0, 675, 455);
-		textField = new JTextField();
-		textField.setBounds(106, 11, 270, 20);
-		nuevoPedid.add(textField);
-		textField.setColumns(10);
 		
-		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar = new JButton("Aceptar");
 		btnAceptar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				String client = textField.getText();
-				if (!client.equals("")) {
-					//vistaInfo();
-					//listener.aceptarNuevoCliente(textField.getText());
-				} else {
-					JFrame error = new JFrame();
-					JOptionPane.showMessageDialog(error, "El campo nombre está vacío.");
-				}
+				
 			}
 		});
-		btnAceptar.setBounds(190, 63, 89, 23);
+		btnAceptar.setBounds(190, 200, 89, 23);
 		nuevoPedid.add(btnAceptar);
 		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(285, 63, 89, 23);
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(285, 200, 89, 23);
 		nuevoPedid.add(btnCancelar);
 		btnCancelar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				//vistaInfo();
+				vistaInfo();
 			}
 		});
 		
 		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(31, 14, 46, 14);
+		lblNombre.setBounds(31, 11, 100, 14);
+		JLabel lblDireccion1 = new JLabel("Dirección 1");
+		lblDireccion1.setBounds(31, 41, 100, 14);
+		JLabel lblDireccion2 = new JLabel("Dirección 2");
+		lblDireccion2.setBounds(31, 71, 100, 14);
+		JLabel lblLocalidad = new JLabel("Localidad");
+		lblLocalidad.setBounds(31, 101, 100, 14);
+		JLabel lblCPostal = new JLabel("Código Postal");
+		lblCPostal.setBounds(31, 131, 100, 14);
+		JLabel lblProvincia = new JLabel("Provincia");
+		lblProvincia.setBounds(31, 161, 100, 14);
 		nuevoPedid.add(lblNombre);
-		setVisible(true);
+		nuevoPedid.add(lblDireccion1);
+		nuevoPedid.add(lblDireccion2);
+		nuevoPedid.add(lblLocalidad);
+		nuevoPedid.add(lblCPostal);
+		nuevoPedid.add(lblProvincia);
+		
+		nombre = new JTextField();
+		nombre.setBounds(150, 11, 270, 20);
+		direccion1 = new JTextField();
+		direccion1.setBounds(150, 41, 270, 20);
+		direccion2 = new JTextField();
+		direccion2.setBounds(150, 71, 270, 20);
+		localidad = new JTextField();
+		localidad.setBounds(150, 101, 270, 20);
+		cPostal = new JTextField();
+		cPostal.setBounds(150, 131, 270, 20);
+		provincia = new JTextField();
+		provincia.setBounds(150, 161, 270, 20);
+		nuevoPedid.add(nombre);
+		nuevoPedid.add(direccion1);
+		nuevoPedid.add(direccion2);
+		nuevoPedid.add(localidad);
+		nuevoPedid.add(cPostal);
+		nuevoPedid.add(provincia);
+		
 	}
-
-	private static final long serialVersionUID = 1L;
+	
+	public interface PedidosSwingListener {
+		public void atras();
+	}
+	
+	private void vistaNuevoPedido() {
+		remove(info);
+		add(nuevoPedid);
+		repaint();
+	}
+	
+	private void vistaInfo() {
+		remove(nuevoPedid);
+		add(info);
+		repaint();
+	}
 }
