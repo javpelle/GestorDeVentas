@@ -50,6 +50,20 @@ public class Cliente {
 	}
 	
 	/**
+	 * Actualiza los datos de beneficios y costes de un cliente,
+	 * por ejemplo si se ha insertado un nuevo pedido o modificado.
+	 */
+	public void actulizarPrecios() {
+		dineroGastado = 0;
+		coste = 0;
+		for (int i = 0; i < listaPedidos.size(); i++) {
+			dineroGastado += listaPedidos.get(i).getBeneficioBruto();
+			coste += listaPedidos.get(i).getCoste();
+		}
+		beneficioCliente = dineroGastado - coste;
+	}
+	
+	/**
 	 * @return Devuelve el nombre del cliente
 	 */
 	public String toString () {return nombre;}
@@ -75,7 +89,7 @@ public class Cliente {
 		listaPedidos.add(new Pedido(direccion));
 	}
 
-	public void eliminarPedido(Pedido pedido) {
-		listaPedidos.remove(pedido);
+	public boolean eliminarPedido(Pedido pedido) {
+		return listaPedidos.remove(pedido);
 	}
 }

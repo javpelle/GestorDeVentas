@@ -49,8 +49,8 @@ public class Producto {
 	public void cargar(Scanner entrada) {
 		nombre = entrada.nextLine();
 		talla = entrada.nextLine();
-		precioBruto = Integer.parseInt(entrada.nextLine());
-		coste = Integer.parseInt(entrada.nextLine());
+		precioBruto = Float.parseFloat(entrada.nextLine());
+		coste = Float.parseFloat(entrada.nextLine());
 		codSeguimiento = entrada.nextLine();
 		ganancia = precioBruto - coste;
 	}
@@ -91,11 +91,6 @@ public class Producto {
 	}
 	
 	/**
-	 * @return Devuelve el nombre del producto
-	 */
-	public String getNombre() { return nombre;}
-	
-	/**
 	 * @return Devuelve la talla del producto
 	 */
 	public String getTalla() { return talla;}
@@ -119,4 +114,11 @@ public class Producto {
 	 * @return Devuelve el codigo de seguimiento
 	 */
 	public String getCodSeguimiento() { return codSeguimiento;}
+	
+	/**
+	 * @return Devuelve el nombre del producto
+	 */
+	public String toString() {
+		return nombre;
+	}
 }

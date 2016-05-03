@@ -81,11 +81,17 @@ public class Gestor {
 	}
 	
 	/**
-	 * Esta operación apaga el gestor y guarda para ello las listas de clientes
-	 * del archivo. Los nombres de los archivos son los mismos que al arrancar.
+	 * Actualiza los datos de beneficios y costes de un cliente,
+	 * por ejemplo si se ha insertado un nuevo pedido o modificado.
 	 */
-	public void apagar() {
-		
+	public void actulizarPrecios() {
+		brutoTotal = 0;
+		costes = 0;
+		for (int i = 0; i < clientes.size(); i++) {
+			brutoTotal += clientes.get(i).getBeneficioBruto();
+			costes += clientes.get(i).getCoste();
+		}
+		netoTotal = brutoTotal - costes;
 	}
 	
 	/**
@@ -136,4 +142,8 @@ public class Gestor {
 	 * @return Devuelve el beneficio neto
 	 */
 	public float getBeneficioNeto() {return netoTotal;}
+
+	public boolean eliminarCliente(Cliente cliente) {
+		return clientes.remove(cliente);
+	}
 }

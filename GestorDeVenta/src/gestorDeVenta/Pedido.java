@@ -116,8 +116,20 @@ public class Pedido {
 		this.direccion = direccion;
 	}
 	
+	public List<Producto> getListaProductos() {
+		return listaProductos;
+	}
+	
 	public String toString() {
 		return Integer.toString(numeroPedido);
+	}
+
+	public void nuevoProducto(Producto producto) {
+		listaProductos.add(producto);
+	}
+	
+	public boolean eliminarProducto(Producto producto) {
+		return listaProductos.remove(producto);
 	}
 }
 

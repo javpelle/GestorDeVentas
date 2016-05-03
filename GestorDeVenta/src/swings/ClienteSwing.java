@@ -17,40 +17,43 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-public class PedidosSwing extends JPanel {
+public class ClienteSwing extends JPanel {
 	// elementos comunes
 	private static final long serialVersionUID = 1L;
 	private Cliente cliente;
 	private List<Pedido> pedidosCliente;
-	private PedidosSwingListener listener;
+	private ClienteSwingListener listener;
 	
 	// Datos apartado cliente
-		private JPanel info; 
-		private JButton seleccionarPedido;
-		private JButton eliminarPedido;
-		private JButton nuevoPedido;
-		private JButton atras;
-		private JList<Object> list;
-		private JScrollPane scrollPanePedidos;
-		
-		// Datos apartado nuevo Cliente
-		private JPanel nuevoPedid;
-		private JTextField nombre;
-		private JTextField direccion1;
-		private JTextField direccion2;
-		private JTextField localidad;
-		private JTextField cPostal;
-		private JTextField provincia;
-		private JButton btnAceptar;
-		private JButton btnCancelar;
+	private JPanel info; 
+	private JButton seleccionarPedido;
+	private JButton eliminarPedido;
+	private JButton nuevoPedido;
+	private JButton atras;
+	private JList<Object> list;
+	private JScrollPane scrollPanePedidos;
+	private JLabel lblBruto;
+	private JLabel lblCostes;
+	private JLabel lblneto;	
 	
-	public PedidosSwing(Cliente cliente, PedidosSwingListener listener) {
+	// Datos apartado nuevo Cliente
+	private JPanel nuevoPedid;
+	private JTextField nombre;
+	private JTextField direccion1;
+	private JTextField direccion2;
+	private JTextField localidad;
+	private JTextField cPostal;
+	private JTextField provincia;
+	private JButton btnAceptar;
+	private JButton btnCancelar;
+	
+	public ClienteSwing(Cliente cliente, ClienteSwingListener listener) {
 		this.cliente = cliente;
 		pedidosCliente = cliente.getListaPedidos();
 		this.listener = listener;
 		setLayout(null);
-		inicializarNuevoPedido();
 		inicializarInfo();
+		inicializarNuevoPedido();
 		add(info);
 	}
 	
@@ -87,7 +90,7 @@ public class PedidosSwing extends JPanel {
 		
 		seleccionarPedido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// listener.seleccionar((Cliente) list.getSelectedValue());
+				listener.seleccionarPedido((Pedido) list.getSelectedValue());
 			}
 		});
 		
@@ -102,7 +105,6 @@ public class PedidosSwing extends JPanel {
 				listener.atras();
 			}
 		});
-		
 	}
 	
 	private void inicializarNuevoPedido() {
@@ -114,10 +116,9 @@ public class PedidosSwing extends JPanel {
 		btnAceptar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				String direccion = nombre.getText() + ";" +
-				direccion1.getText() + ";" + direccion2.getText() + ";" +
-				localidad.getText() + ";" + cPostal.getText() + ";" +
-				provincia.getText() + ";";
+				String direccion = nombre.getText() + ";" + direccion1.getText() +
+				";" + direccion2.getText() + ";" + localidad.getText() +
+				";" + cPostal.getText() + ";" + provincia.getText();
 				vistaInfo();
 				listener.crearPedido(direccion, cliente);
 			}
@@ -172,13 +173,17 @@ public class PedidosSwing extends JPanel {
 		nuevoPedid.add(localidad);
 		nuevoPedid.add(cPostal);
 		nuevoPedid.add(provincia);
-		update();
 	}
 	
-	public interface PedidosSwingListener {
+	public interface ClienteSwingListener {
+		
 		public void atras();
+		
 		public void crearPedido(String direccion, Cliente cliente);
+		
 		public void eliminarPedido(Pedido pedido, Cliente cliente);
+		
+		public void seleccionarPedido(Pedido pedido);
 	}
 	
 	private void vistaNuevoPedido() {
@@ -194,10 +199,32 @@ public class PedidosSwing extends JPanel {
 	}
 
 	public void update() {
-		if (list != null)
+		if (list != null) {
 			scrollPanePedidos.remove(list);
+			info.remove(lblBruto); info.remove(lblCostes); info.remove(lblneto);
+		}
+			
 		list = new JList<Object>(pedidosCliente.toArray());
 		list.setSelectedIndex(0);
-		//scrollPanePedidos.setViewportView(list);
+		scrollPanePedidos.setViewportView(list);
+		lblBruto = new JLabel("Beneficios brutos = " + Float.toString(cliente.getBeneficioBruto()) + " €");
+		lblBruto.setBounds(480, 300, 180, 14);
+		info.add(lblBruto);
+		lblCostes = new JLabel("Costes = " + Float.toString(cliente.getCoste()) + " €");
+		lblCostes.setBounds(480, 340, 180, 14);
+		info.add(lblCostes);
+		lblneto = new JLabel("Beneficios brutos = " + Float.toString(cliente.getBeneficioNeto()) + " €");
+		lblneto.setBounds(480, 380, 180, 14);
+		info.add(lblneto);
+		list.addMouseListener(new MouseAdapter() {
+		    public void mouseClicked(MouseEvent evt) {
+		        if (evt.getClickCount() == 2) {
+		        	listener.seleccionarPedido((Pedido) list.getSelectedValue());
+		        }
+		    }
+		});
+		info.repaint();
 	}
+	
+	public Cliente getCliente() {return cliente;}
 }

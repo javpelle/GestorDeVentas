@@ -20,27 +20,31 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ClientesSwing extends JPanel {
+public class GestorSwing extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	
 	// Datos comunes
 	private Gestor gestor;
 	private List<Cliente> listaClientes;
-	private ClientesSwingListener listener;
+	private GestorSwingListener listener;
 	
 	// Datos apartado clientes
 	private JPanel info; 
 	private JButton seleccionarCliente;
 	private JButton nuevoCliente;
+	private JButton eliminarCliente;
 	private JList<Object> list;
 	private JScrollPane scrollPane;
+	private JLabel lblBruto;
+	private JLabel lblCostes;
+	private JLabel lblneto;	
 	
 	// Datos apartado nuevo Cliente
 	private JPanel nuevoClient;
 	private JTextField textField;
 	
-	public ClientesSwing(Gestor gestor, ClientesSwingListener listener) {
+	public GestorSwing(Gestor gestor, GestorSwingListener listener) {
 		this.gestor = gestor;
 		this.listaClientes = gestor.getClientes();
 		this.listener = listener;
@@ -58,18 +62,18 @@ public class ClientesSwing extends JPanel {
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(8, 20, 460, 420);
 		
-		list = new JList<Object>(listaClientes.toArray());
-		list.setSelectedIndex(0);
-		scrollPane.setViewportView(list);
 		info.add(scrollPane);
 		
 		seleccionarCliente = new JButton("Seleccionar");
 		seleccionarCliente.setBounds(490, 20, 140, 20);
 		nuevoCliente = new JButton("Nuevo Cliente");
 		nuevoCliente.setBounds(490, 50, 140, 20);
+		eliminarCliente = new JButton("Eliminar Cliente");
+		eliminarCliente.setBounds(490, 80, 140, 20);
 		info.add(nuevoCliente);
 		info.add(seleccionarCliente);
-		
+		info.add(
+				eliminarCliente);
 		nuevoCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				vistaNuevoCliente();
@@ -82,16 +86,11 @@ public class ClientesSwing extends JPanel {
 			}
 		});
 		
-		JLabel lblBruto = new JLabel("Beneficios brutos = " + Float.toString(gestor.getBeneficioBruto()) + "€");
-		lblBruto.setBounds(480, 300, 180, 14);
-		info.add(lblBruto);
-		JLabel lblCostes = new JLabel("Costes = " + Float.toString(gestor.getCoste()) + "€");
-		lblCostes.setBounds(480, 340, 180, 14);
-		info.add(lblCostes);
-		JLabel lblneto = new JLabel("Beneficios brutos = " + Float.toString(gestor.getBeneficioNeto()) + "€");
-		lblneto.setBounds(480, 380, 180, 14);
-		info.add(lblneto);
-		
+		eliminarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				listener.eliminarCliente((Cliente) list.getSelectedValue());
+			}
+		});
 	}
 	
 	private void inicializarNuevoCliente() {
@@ -136,17 +135,39 @@ public class ClientesSwing extends JPanel {
 	}
 
 	public void update() {
-		scrollPane.remove(list);
+		if (list != null) {
+			scrollPane.remove(list);
+			info.remove(lblBruto); info.remove(lblCostes); info.remove(lblneto);
+		}
 		list = new JList<Object>(listaClientes.toArray());
 		list.setSelectedIndex(0);
 		scrollPane.setViewportView(list);
+		lblBruto = new JLabel("Beneficios brutos = " + Float.toString(gestor.getBeneficioBruto()) + " €");
+		lblBruto.setBounds(480, 300, 180, 14);
+		info.add(lblBruto);
+		lblCostes = new JLabel("Costes = " + Float.toString(gestor.getCoste()) + " €");
+		lblCostes.setBounds(480, 340, 180, 14);
+		info.add(lblCostes);
+		lblneto = new JLabel("Beneficios brutos = " + Float.toString(gestor.getBeneficioNeto()) + " €");
+		lblneto.setBounds(480, 380, 180, 14);
+		info.add(lblneto);
+		list.addMouseListener(new MouseAdapter() {
+		    public void mouseClicked(MouseEvent evt) {
+		        if (evt.getClickCount() == 2) {
+		        	listener.seleccionar((Cliente) list.getSelectedValue());
+		        }
+		    }
+		});
+		info.repaint();
 	}
 	
-	public interface ClientesSwingListener {
+	public interface GestorSwingListener {
 		
 		public void seleccionar(Cliente cliente);
 		
 		public void aceptarNuevoCliente(String cliente);
+		
+		public void eliminarCliente(Cliente cliente);
 	}
 
 	private void vistaNuevoCliente() {
