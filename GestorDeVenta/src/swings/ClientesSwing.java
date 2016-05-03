@@ -3,6 +3,7 @@ package swings;
 import java.util.List;
 
 import gestorDeVenta.Cliente;
+import gestorDeVenta.Gestor;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,6 +25,7 @@ public class ClientesSwing extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	// Datos comunes
+	private Gestor gestor;
 	private List<Cliente> listaClientes;
 	private ClientesSwingListener listener;
 	
@@ -31,17 +33,16 @@ public class ClientesSwing extends JPanel {
 	private JPanel info; 
 	private JButton seleccionarCliente;
 	private JButton nuevoCliente;
-	private JList list;
+	private JList<Object> list;
 	private JScrollPane scrollPane;
 	
 	// Datos apartado nuevo Cliente
 	private JPanel nuevoClient;
 	private JTextField textField;
-	private JButton btnAceptar;
-	private JButton btnCancelar;
 	
-	public ClientesSwing(List<Cliente> listaClientes, ClientesSwingListener listener) {
-		this.listaClientes = listaClientes;
+	public ClientesSwing(Gestor gestor, ClientesSwingListener listener) {
+		this.gestor = gestor;
+		this.listaClientes = gestor.getClientes();
 		this.listener = listener;
 		setLayout(null);
 		inicializarInfo();
@@ -57,7 +58,7 @@ public class ClientesSwing extends JPanel {
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(8, 20, 460, 420);
 		
-		list = new JList(listaClientes.toArray());
+		list = new JList<Object>(listaClientes.toArray());
 		list.setSelectedIndex(0);
 		scrollPane.setViewportView(list);
 		info.add(scrollPane);
@@ -80,6 +81,16 @@ public class ClientesSwing extends JPanel {
 				listener.seleccionar((Cliente) list.getSelectedValue());
 			}
 		});
+		
+		JLabel lblBruto = new JLabel("Beneficios brutos = " + Float.toString(gestor.getBeneficioBruto()) + "€");
+		lblBruto.setBounds(480, 300, 180, 14);
+		info.add(lblBruto);
+		JLabel lblCostes = new JLabel("Costes = " + Float.toString(gestor.getCoste()) + "€");
+		lblCostes.setBounds(480, 340, 180, 14);
+		info.add(lblCostes);
+		JLabel lblneto = new JLabel("Beneficios brutos = " + Float.toString(gestor.getBeneficioNeto()) + "€");
+		lblneto.setBounds(480, 380, 180, 14);
+		info.add(lblneto);
 		
 	}
 	
@@ -124,9 +135,9 @@ public class ClientesSwing extends JPanel {
 		nuevoClient.add(lblNombre);
 	}
 
-	public void update(List<Cliente> listaClientes) {
+	public void update() {
 		scrollPane.remove(list);
-		list = new JList(listaClientes.toArray());
+		list = new JList<Object>(listaClientes.toArray());
 		list.setSelectedIndex(0);
 		scrollPane.setViewportView(list);
 	}

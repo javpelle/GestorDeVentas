@@ -94,7 +94,6 @@ public class Gestor {
 	public boolean crearCliente(String nombre) {
 		if(!busquedaBinaria(nombre)) {
 			clientes.add(pos, new Cliente(nombre));
-			guardar();
 			return true;
 		}
 		return false;
@@ -122,4 +121,19 @@ public class Gestor {
 		}
 		return encontrado;
 	}
+	
+	/**
+	 * @return Devuelve el beneficio bruto
+	 */
+	public float getBeneficioBruto() {return brutoTotal;}
+	
+	/**
+	 * @return Devuelve el coste
+	 */
+	public float getCoste() {return costes;}
+	
+	/**
+	 * @return Devuelve el beneficio neto
+	 */
+	public float getBeneficioNeto() {return netoTotal;}
 }

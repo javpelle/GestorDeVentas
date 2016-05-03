@@ -4,14 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import gestorDeVenta.Cliente;
 import gestorDeVenta.Pedido;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -22,6 +21,7 @@ public class PedidosSwing extends JPanel {
 	// elementos comunes
 	private static final long serialVersionUID = 1L;
 	private Cliente cliente;
+	private List<Pedido> pedidosCliente;
 	private PedidosSwingListener listener;
 	
 	// Datos apartado cliente
@@ -30,8 +30,8 @@ public class PedidosSwing extends JPanel {
 		private JButton eliminarPedido;
 		private JButton nuevoPedido;
 		private JButton atras;
-		private JList list;
-		private JScrollPane scrollPane;
+		private JList<Object> list;
+		private JScrollPane scrollPanePedidos;
 		
 		// Datos apartado nuevo Cliente
 		private JPanel nuevoPedid;
@@ -46,27 +46,25 @@ public class PedidosSwing extends JPanel {
 	
 	public PedidosSwing(Cliente cliente, PedidosSwingListener listener) {
 		this.cliente = cliente;
+		pedidosCliente = cliente.getListaPedidos();
 		this.listener = listener;
 		setLayout(null);
-		//this.cliente.listaPedidos.add(new Pedido("hola"));
-		inicializarInfo();
 		inicializarNuevoPedido();
+		inicializarInfo();
 		add(info);
-		repaint();
 	}
 	
 	private void inicializarInfo() {
 		info = new JPanel();
 		info.setBounds(5, 0, 675, 455);
-		info.setBorder(new TitledBorder(null, cliente.toString(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		info.setLayout(null);
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(8, 20, 460, 420);
+		info.setBorder(new TitledBorder(null, cliente.toString(), TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
-		list = new JList(cliente.getListaPedidos().toArray());
-		list.setSelectedIndex(0);
-		scrollPane.setViewportView(list);
-		info.add(scrollPane);
+		
+		scrollPanePedidos = new JScrollPane();
+		scrollPanePedidos.setBounds(8, 20, 460, 420);
+		
+		info.add(scrollPanePedidos);
 		
 		seleccionarPedido = new JButton("Seleccionar");
 		seleccionarPedido.setBounds(490, 20, 140, 20);
@@ -95,7 +93,7 @@ public class PedidosSwing extends JPanel {
 		
 		eliminarPedido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// Eliminamos un pedido
+				listener.eliminarPedido((Pedido)list.getSelectedValue(), cliente);
 			}
 		});
 		
@@ -116,7 +114,12 @@ public class PedidosSwing extends JPanel {
 		btnAceptar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
+				String direccion = nombre.getText() + ";" +
+				direccion1.getText() + ";" + direccion2.getText() + ";" +
+				localidad.getText() + ";" + cPostal.getText() + ";" +
+				provincia.getText() + ";";
+				vistaInfo();
+				listener.crearPedido(direccion, cliente);
 			}
 		});
 		btnAceptar.setBounds(190, 200, 89, 23);
@@ -169,11 +172,13 @@ public class PedidosSwing extends JPanel {
 		nuevoPedid.add(localidad);
 		nuevoPedid.add(cPostal);
 		nuevoPedid.add(provincia);
-		
+		update();
 	}
 	
 	public interface PedidosSwingListener {
 		public void atras();
+		public void crearPedido(String direccion, Cliente cliente);
+		public void eliminarPedido(Pedido pedido, Cliente cliente);
 	}
 	
 	private void vistaNuevoPedido() {
@@ -186,5 +191,13 @@ public class PedidosSwing extends JPanel {
 		remove(nuevoPedid);
 		add(info);
 		repaint();
+	}
+
+	public void update() {
+		if (list != null)
+			scrollPanePedidos.remove(list);
+		list = new JList<Object>(pedidosCliente.toArray());
+		list.setSelectedIndex(0);
+		//scrollPanePedidos.setViewportView(list);
 	}
 }

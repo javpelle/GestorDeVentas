@@ -70,4 +70,12 @@ public class Cliente {
 	public float getBeneficioNeto() {return beneficioCliente;}
 	
 	public List<Pedido> getListaPedidos() {return listaPedidos;}
+
+	public void crearPedido(String direccion) {
+		listaPedidos.add(new Pedido(direccion));
+	}
+
+	public void eliminarPedido(Pedido pedido) {
+		listaPedidos.remove(pedido);
+	}
 }
