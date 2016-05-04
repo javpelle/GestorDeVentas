@@ -1,5 +1,8 @@
 package swings;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -23,6 +26,7 @@ public class ProductoSwing extends JPanel {
 	private JPanel info; 
 	private JButton modificar;
 	private JButton atras;
+	private JButton copiar;
 	private JLabel lblNombre;
 	private JLabel lblTalla;
 	private JLabel lblBruto;
@@ -58,8 +62,11 @@ public class ProductoSwing extends JPanel {
 		modificar.setBounds(490, 80, 140, 20);
 		atras = new JButton("Atrás");
 		atras.setBounds(490, 110, 140, 20);
+		copiar = new JButton("Copiar código al portapapeles");
+		copiar.setBounds(20, 210, 300, 20);
 		info.add(modificar);
-		info.add(atras);	
+		info.add(atras);
+		info.add(copiar);
 		
 		modificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -70,6 +77,14 @@ public class ProductoSwing extends JPanel {
 		atras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				listener.atras();
+			}
+		});
+		
+		copiar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				StringSelection stringSelection = new StringSelection(producto.getCodSeguimiento());
+				Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+				clpbrd.setContents(stringSelection, null);
 			}
 		});
 	}
@@ -87,15 +102,15 @@ public class ProductoSwing extends JPanel {
 		modific.add(btnCancelar);
 		
 		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(31, 31, 100, 14);
+		lblNombre.setBounds(31, 31, 150, 14);
 		JLabel lblTalla = new JLabel("Talla");
-		lblTalla.setBounds(31, 61, 100, 14);
+		lblTalla.setBounds(31, 61, 150, 14);
 		JLabel lblPrecio = new JLabel("Precio de venta");
-		lblPrecio.setBounds(31, 91, 100, 14);
+		lblPrecio.setBounds(31, 91, 150, 14);
 		JLabel lblCoste = new JLabel("Precio de coste");
-		lblCoste.setBounds(31, 121, 100, 14);
-		JLabel lblCSeguimiento = new JLabel("Código Postal");
-		lblCSeguimiento.setBounds(31, 151, 100, 14);
+		lblCoste.setBounds(31, 121, 150, 14);
+		JLabel lblCSeguimiento = new JLabel("Código de Seguimiento");
+		lblCSeguimiento.setBounds(31, 151, 150, 14);
 		modific.add(lblNombre);
 		modific.add(lblTalla);
 		modific.add(lblPrecio);
@@ -103,15 +118,15 @@ public class ProductoSwing extends JPanel {
 		modific.add(lblCSeguimiento);
 		
 		nombre = new JTextField(producto.toString());
-		nombre.setBounds(150, 31, 270, 20);
+		nombre.setBounds(200, 31, 270, 20);
 		talla = new JTextField(producto.getTalla());
-		talla.setBounds(150, 61, 270, 20);
+		talla.setBounds(200, 61, 270, 20);
 		bruto = new JTextField(Float.toString(producto.getPrecioBruto()));
-		bruto.setBounds(150, 91, 270, 20);
+		bruto.setBounds(200, 91, 270, 20);
 		costes = new JTextField(Float.toString(producto.getCoste()));
-		costes.setBounds(150, 121, 270, 20);
+		costes.setBounds(200, 121, 270, 20);
 		codseguimiento = new JTextField(producto.getCodSeguimiento());
-		codseguimiento.setBounds(150, 151, 270, 20);
+		codseguimiento.setBounds(200, 151, 270, 20);
 		modific.add(nombre);
 		modific.add(talla);
 		modific.add(bruto);
