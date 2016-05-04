@@ -54,7 +54,10 @@ public class Pedido {
 			precio += listaProductos.get(i).getPrecioBruto();
 			coste += listaProductos.get(i).getCoste();
 		}
+		precio = (float) (Math.round(precio * 100.0)/100.0);
+		coste = (float) (Math.round(coste * 100.0)/100.0);
 		beneficio = precio - coste;
+		beneficio = (float) (Math.round(beneficio * 100.0)/100.0);
 	}
 	
 	/**
@@ -80,7 +83,10 @@ public class Pedido {
 			precio += listaProductos.get(i).getPrecioBruto();
 			coste += listaProductos.get(i).getCoste();
 		}
+		precio = (float) (Math.round(precio * 100.0)/100.0);
+		coste = (float) (Math.round(coste * 100.0)/100.0);
 		beneficio = precio - coste;
+		beneficio = (float) (Math.round(beneficio * 100.0)/100.0);
 	}
 
 	/**

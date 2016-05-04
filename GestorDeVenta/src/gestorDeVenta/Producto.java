@@ -35,6 +35,7 @@ public class Producto {
 		this.precioBruto = precioBruto;
 		this.coste = coste;
 		ganancia = this.precioBruto - this.coste;
+		ganancia = (float) (Math.round(ganancia * 100.0)/100.0);
 		if (codSeguimiento != null) {
 			this.codSeguimiento = codSeguimiento;
 		} else {
@@ -53,6 +54,7 @@ public class Producto {
 		coste = Float.parseFloat(entrada.nextLine());
 		codSeguimiento = entrada.nextLine();
 		ganancia = precioBruto - coste;
+		ganancia = (float) (Math.round(ganancia * 100.0)/100.0);
 	}
 	
 	/**
@@ -83,6 +85,7 @@ public class Producto {
 		this.precioBruto = precioBruto;
 		this.coste = coste;
 		ganancia = this.precioBruto - this.coste;
+		ganancia = (float) (Math.round(ganancia * 100.0)/100.0);
 		if (codSeguimiento != null) {
 			this.codSeguimiento = codSeguimiento;
 		} else {

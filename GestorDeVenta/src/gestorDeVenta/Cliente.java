@@ -39,7 +39,10 @@ public class Cliente {
 			dineroGastado += listaPedidos.get(i).getBeneficioBruto();
 			coste += listaPedidos.get(i).getCoste();
 		}
+		dineroGastado = (float) (Math.round(dineroGastado * 100.0)/100.0);
+		coste = (float) (Math.round(coste * 100.0)/100.0);
 		beneficioCliente = dineroGastado - coste;
+		beneficioCliente = (float) (Math.round(beneficioCliente * 100.0)/100.0);
 	}
 	
 	public void guardar(FileWriter salida) throws IOException {
@@ -60,7 +63,10 @@ public class Cliente {
 			dineroGastado += listaPedidos.get(i).getBeneficioBruto();
 			coste += listaPedidos.get(i).getCoste();
 		}
+		dineroGastado = (float) (Math.round(dineroGastado * 100.0)/100.0);
+		coste = (float) (Math.round(coste * 100.0)/100.0);
 		beneficioCliente = dineroGastado - coste;
+		beneficioCliente = (float) (Math.round(beneficioCliente * 100.0)/100.0);
 	}
 	
 	/**

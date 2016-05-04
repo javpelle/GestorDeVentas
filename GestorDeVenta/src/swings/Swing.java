@@ -59,6 +59,7 @@ public class Swing extends JFrame {
 			@Override
 			public void eliminarCliente(Cliente cliente) {
 				if (gestor.eliminarCliente(cliente)) {
+					gestor.actulizarPrecios();
 					gestorSwing.update();
 					gestor.guardar();
 				}
@@ -91,6 +92,7 @@ public class Swing extends JFrame {
 			@Override
 			public void eliminarPedido(Pedido pedido, Cliente cliente) {
 				if(cliente.eliminarPedido(pedido)) {
+					cliente.actulizarPrecios();
 					clienteSwing.update();
 					gestor.guardar();
 				}
@@ -122,7 +124,7 @@ public class Swing extends JFrame {
 					vistaProducto(producto);
 					productoSwing.setBounds(0, 0, 684, 461);
 					add(productoSwing);
-					//productoSwing.update();
+					productoSwing.update();
 					repaint();
 				}
 			}
@@ -170,6 +172,16 @@ public class Swing extends JFrame {
 				add(pedidoSwing);
 				pedidoSwing.update();
 				repaint();
+			}
+
+			@Override
+			public void modificarProducto(String nombre, String talla,
+					float precioBruto, float coste, String codSeguimiento,
+					Producto producto) {
+				producto.setModificaciones(nombre, talla, precioBruto, coste, codSeguimiento);
+				productoSwing.update();
+				repaint();
+				gestor.guardar();
 			}
 			
 		});

@@ -57,7 +57,10 @@ public class Gestor {
 				brutoTotal += clientes.get(i).getBeneficioBruto();
 				costes += clientes.get(i).getCoste();
 			}
+			brutoTotal = (float) (Math.round(brutoTotal * 100.0)/100.0);
+			costes = (float) (Math.round(costes * 100.0)/100.0);
 			netoTotal = brutoTotal - costes;
+			netoTotal = (float) (Math.round(netoTotal * 100.0)/100.0);
 			entrada.close();
 		}
 	}
@@ -91,7 +94,10 @@ public class Gestor {
 			brutoTotal += clientes.get(i).getBeneficioBruto();
 			costes += clientes.get(i).getCoste();
 		}
+		costes = (float) (Math.round(costes * 100.0)/100.0);
 		netoTotal = brutoTotal - costes;
+		netoTotal = brutoTotal - costes;
+		netoTotal = (float) (Math.round(netoTotal * 100.0)/100.0);
 	}
 	
 	/**

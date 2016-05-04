@@ -215,7 +215,7 @@ public class PedidoSwing extends JPanel {
 		lblCostes = new JLabel("Costes = " + Float.toString(pedido.getCoste()) + " €");
 		lblCostes.setBounds(480, 190, 180, 14);
 		info.add(lblCostes);
-		lblneto = new JLabel("Beneficios brutos = " + Float.toString(pedido.getBeneficioNeto()) + " €");
+		lblneto = new JLabel("Beneficios netos = " + Float.toString(pedido.getBeneficioNeto()) + " €");
 		lblneto.setBounds(480, 230, 180, 14);
 		info.add(lblneto);
 		list.addMouseListener(new MouseAdapter() {

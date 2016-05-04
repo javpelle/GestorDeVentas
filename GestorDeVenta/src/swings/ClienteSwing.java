@@ -213,7 +213,7 @@ public class ClienteSwing extends JPanel {
 		lblCostes = new JLabel("Costes = " + Float.toString(cliente.getCoste()) + " €");
 		lblCostes.setBounds(480, 340, 180, 14);
 		info.add(lblCostes);
-		lblneto = new JLabel("Beneficios brutos = " + Float.toString(cliente.getBeneficioNeto()) + " €");
+		lblneto = new JLabel("Beneficios netos = " + Float.toString(cliente.getBeneficioNeto()) + " €");
 		lblneto.setBounds(480, 380, 180, 14);
 		info.add(lblneto);
 		list.addMouseListener(new MouseAdapter() {
